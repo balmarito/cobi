@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR Plat Markerless</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      webxr="optionalFeatures: hit-test;"
+      xr-mode-ui="enabled: false"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+      renderer="logarithmicDepthBuffer: true;"
+      embedded
+    >
+      <a-assets>
+        <a-asset-item id="plat" src="model.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 1.6 0"></a-camera>
+
+      <a-entity
+        gltf-model="#plat"
+        position="0 0 -2"
+        scale="0.4 0.4 0.4"
+      ></a-entity>
+    </a-scene>
+  </body>
+</html>
