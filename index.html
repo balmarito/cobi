@@ -4,18 +4,39 @@
     <title>AR Menu Markerless</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-ar@1.8.0/dist/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script>
+      AFRAME.registerComponent('place-on-ground', {
+        init: function () {
+          this.el.sceneEl.addEventListener('loaded', () => {
+            this.el.setAttribute('visible', true);
+          });
+        }
+      });
+    </script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene
       vr-mode-ui="enabled: false"
+      embedded
       device-orientation-permission-ui="enabled: true"
-      arjs="trackingMethod: best; sourceType: webcam;">
-      <a-entity camera></a-entity>
+      renderer="logarithmicDepthBuffer: true;"
+      xr-mode-ui="enabled: false"
+      webxr="optionalFeatures: hit-test;"
+    >
       <a-assets>
         <a-asset-item id="dish" src="model.glb"></a-asset-item>
       </a-assets>
-      <a-entity gltf-model="#dish" position="0 0 -2" scale="0.5 0.5 0.5"></a-entity>
+
+      <a-camera position="0 1.6 0" look-controls="enabled: true"></a-camera>
+
+      <a-entity
+        gltf-model="#dish"
+        scale="0.5 0.5 0.5"
+        position="0 0 -2"
+        place-on-ground
+        visible="false"
+      ></a-entity>
     </a-scene>
   </body>
 </html>
