@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR Plat Markerless</title>
+    <title>AR Menu Debug</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <style>
+      #errorMessage {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        padding: 1rem;
+        background: #ffcccc;
+        color: #900;
+        font-weight: bold;
+        font-family: sans-serif;
+        display: none;
+        z-index: 999;
+        text-align: center;
+      }
+    </style>
   </head>
   <body style="margin: 0; overflow: hidden;">
+    <div id="errorMessage">
+      ⚠️ Erreur : accès à la caméra refusé ou non supporté.<br>
+      Vérifie les autorisations dans Chrome/Safari et utilise un navigateur compatible.
+    </div>
+
     <a-scene
       webxr="optionalFeatures: hit-test;"
       xr-mode-ui="enabled: false"
@@ -26,5 +46,16 @@
         scale="0.4 0.4 0.4"
       ></a-entity>
     </a-scene>
+
+    <script>
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        document.getElementById('errorMessage').style.display = 'block';
+      } else {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .catch(() => {
+            document.getElementById('errorMessage').style.display = 'block';
+          });
+      }
+    </script>
   </body>
 </html>
