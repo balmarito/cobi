@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <style>
+      #errorMessage {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        padding: 1rem;
+        background: #ffcccc;
+        color: #900;
+        font-weight: bold;
+        font-family: sans-serif;
+        display: none;
+        z-index: 999;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div id="errorMessage">
+      ⚠️ Erreur : accès à la caméra refusé ou non supporté.<br>
+      Vérifie les autorisations dans Chrome/Safari et utilise un navigateur compatible.
+    </div>
+
+    <a-scene
+      webxr="optionalFeatures: hit-test;"
+      xr-mode-ui="enabled: false"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+      renderer="logarithmicDepthBuffer: true;"
+      embedded
+    >
+      <a-assets>
+        <a-asset-item id="plat" src="model.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 1.6 0"></a-camera>
+
+      <a-entity
+        gltf-model="#plat"
+        position="0 0 -2"
+        scale="0.4 0.4 0.4"
+      ></a-entity>
+    </a-scene>
+
+    <script>
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        document.getElementById('errorMessage').style.display = 'block';
+      } else {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .catch(() => {
+            document.getElementById('errorMessage').style.display = 'block';
+          });
+      }
+    </script>
+  </body>
+</html>
